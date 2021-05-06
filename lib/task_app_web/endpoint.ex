@@ -50,5 +50,7 @@ defmodule TaskAppWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  # add `Pow.Plug.Session` plug to `lib/task_app_web/endpoint.ex` after `plug Plug.Session`:
+  plug Pow.Plug.Session, otp_app: :task_app
   plug TaskAppWeb.Router
 end
