@@ -28,9 +28,6 @@ defmodule TaskApp.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
-  # Specifies your project dependencies.
-  #
-  # Type `mix help deps` for examples and options.
   defp deps do
     [
       {:phoenix, "~> 1.5.6"},
@@ -45,7 +42,7 @@ defmodule TaskApp.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:pow, "~> 1.0"}
+      {:pow, "~> 1.0.23"}
     ]
   end
 
