@@ -28,7 +28,7 @@ config :phoenix, :json_library, Jason
 
 config :task_app, :pow,
   user: TaskApp.Users.User,
-  repo: TaskApp.Repo
+  repo: TaskApp.Repo,
   web_module: TaskAppWeb
 
 # Import environment specific config. This must remain at the bottom
