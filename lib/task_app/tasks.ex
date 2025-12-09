@@ -9,49 +9,51 @@ defmodule TaskApp.Tasks do
   alias TaskApp.Tasks.Task
 
   @doc """
-  Returns the list of tasks.
+  Returns the list of tasks for a given user.
 
   ## Examples
 
-      iex> list_tasks()
+      iex> list_tasks(user)
       [%Task{}, ...]
 
   """
-  def list_tasks do
-    Repo.all(Task)
+  def list_tasks(user) do
+    Repo.all(from t in Task, where: t.user_id == ^user.id)
   end
 
   @doc """
-  Gets a single task.
+  Gets a single task for a given user.
 
   Raises `Ecto.NoResultsError` if the Task does not exist.
 
   ## Examples
 
-      iex> get_task!(123)
+      iex> get_task!(123, user)
       %Task{}
 
-      iex> get_task!(456)
+      iex> get_task!(456, user)
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do: Repo.get!(Task, id)
+  def get_task!(id, user) do
+    Repo.one!(from t in Task, where: t.id == ^id and t.user_id == ^user.id)
+  end
 
   @doc """
-  Creates a task.
+  Creates a task for a given user.
 
   ## Examples
 
-      iex> create_task(%{field: value})
+      iex> create_task(user, %{field: value})
       {:ok, %Task{}}
 
-      iex> create_task(%{field: bad_value})
+      iex> create_task(user, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_task(attrs \\ %{}) do
+  def create_task(user, attrs \\ %{}) do
     %Task{}
-    |> Task.changeset(attrs)
+    |> Task.changeset(Map.put(attrs, :user_id, user.id))
     |> Repo.insert()
   end
 

@@ -5,7 +5,8 @@ defmodule TaskAppWeb.TaskController do
   alias TaskApp.Tasks.Task
 
   def index(conn, _params) do
-    tasks = Tasks.list_tasks()
+    user = Pow.Plug.current_user(conn)
+    tasks = Tasks.list_tasks(user)
     render(conn, "index.html", tasks: tasks)
   end
 
@@ -15,7 +16,8 @@ defmodule TaskAppWeb.TaskController do
   end
 
   def create(conn, %{"task" => task_params}) do
-    case Tasks.create_task(task_params) do
+    user = Pow.Plug.current_user(conn)
+    case Tasks.create_task(user, task_params) do
       {:ok, task} ->
         conn
         |> put_flash(:info, "Task created successfully.")
@@ -27,18 +29,21 @@ defmodule TaskAppWeb.TaskController do
   end
 
   def show(conn, %{"id" => id}) do
-    task = Tasks.get_task!(id)
+    user = Pow.Plug.current_user(conn)
+    task = Tasks.get_task!(id, user)
     render(conn, "show.html", task: task)
   end
 
   def edit(conn, %{"id" => id}) do
-    task = Tasks.get_task!(id)
+    user = Pow.Plug.current_user(conn)
+    task = Tasks.get_task!(id, user)
     changeset = Tasks.change_task(task)
     render(conn, "edit.html", task: task, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do
-    task = Tasks.get_task!(id)
+    user = Pow.Plug.current_user(conn)
+    task = Tasks.get_task!(id, user)
 
     case Tasks.update_task(task, task_params) do
       {:ok, task} ->
@@ -52,7 +57,8 @@ defmodule TaskAppWeb.TaskController do
   end
 
   def delete(conn, %{"id" => id}) do
-    task = Tasks.get_task!(id)
+    user = Pow.Plug.current_user(conn)
+    task = Tasks.get_task!(id, user)
     {:ok, _task} = Tasks.delete_task(task)
 
     conn

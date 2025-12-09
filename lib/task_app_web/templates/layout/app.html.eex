@@ -13,9 +13,9 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <%= if Pow.Plug.current_user(@conn) do %>
+            <%= if user = Pow.Plug.current_user(@conn) do %>
                 <li>
-                  <%= @current_user.email %>
+                  <%= user.email %>
                 </li>
                 <li>
                   <%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
@@ -28,7 +28,7 @@
                   <%= link "Sign In", to: Routes.pow_session_path(@conn, :new )%>
                 </li>
             <% end %>
-            
+
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
               <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
             <% end %>
