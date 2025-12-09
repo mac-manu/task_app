@@ -13,6 +13,6 @@ defmodule TaskApp.Tasks.Task do
   def changeset(task, attrs) do
     task
     |> cast(attrs, [:description, :completed])
-    |> validate_required([:description, :completed])
+    |> validate_required([:description])
   end
 end
